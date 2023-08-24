@@ -1,0 +1,15 @@
+.products-list {
+    display: flex;
+    flex-direction: row; /* по умолчанию */
+    border-right: 100px;
+  }
+.product-card {
+    margin: 10px;
+    background-color: #33333377;
+    border-color: black;
+}
+
+.Filters {
+    cursor: pointer;
+    width: 100px;
+}
