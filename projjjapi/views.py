@@ -14,76 +14,86 @@ from .models import CustomUserCreationForm, Good
 from django.http import JsonResponse
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
-def userData(request):
-    serializer = CustomUserSerializer(request.user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+class UserProfileView:
+    @staticmethod
+    @api_view(['GET'])
+    @permission_classes([IsAuthenticated])
+    @authentication_classes([TokenAuthentication])
+    def userData(request):
+        serializer = CustomUserSerializer(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @staticmethod
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    @authentication_classes([TokenAuthentication])
+    def update_profile(request):
+        serializer = CustomUserSerializer(request.user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @staticmethod
+    @api_view(['GET'])
+    @permission_classes([IsAuthenticated])
+    @authentication_classes([TokenAuthentication])
+    def ifLogin(request: Request):
+        return Response({
+            'message': "passed"
+        })
 
+class UserAuthView:
+    @staticmethod
+    @api_view(['POST'])
+    def register(request):
+        form = CustomUserCreationForm(request.data)
+        if form.is_valid():
+            user = form.save()
+            return Response({'username': user.username}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-def register(request):
-    form = CustomUserCreationForm(request.data)
-    if form.is_valid():
-        user = form.save()
-        return Response({'username': user.username}, status=status.HTTP_201_CREATED)
-    else:
-        return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+    @staticmethod
+    @api_view(['POST'])
+    @authentication_classes([TokenAuthentication])
+    @permission_classes([AllowAny])
+    def login(request):
+        serializer = LoginRequestSerializer(data=request.data)
+        if serializer.is_valid():
+            authenticated_user = authenticate(**serializer.validated_data)
+            try:
+                token = Token.objects.get(user=authenticated_user)
+                token.delete()
+            except Token.DoesNotExist:
+                pass
+            token = Token.objects.create(user=authenticated_user)
+            return Response(TokenSeriazliser(token).data)
+        else:
+            return Response(serializer.errors, status=400)
 
-
-
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([AllowAny])
-def login(request):
-    serializer = LoginRequestSerializer(data=request.data)
-    if serializer.is_valid():
-        authenticated_user = authenticate(**serializer.validated_data)
-        try:
-            token = Token.objects.get(user=authenticated_user)
-            token.delete()
-        except Token.DoesNotExist:
-            pass
-        token = Token.objects.create(user=authenticated_user)
-        return Response(TokenSeriazliser(token).data)
-    else:
-        return Response(serializer.errors, status=400)
-
-
-
-@api_view()
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
-def ifLogin(request: Request):
-    return Response({
-        'message': "passed"
-    })
-
-
-
-
-@api_view(['GET'])
-def goods(request):
+class GoodView:
+    @staticmethod
+    @api_view(['GET'])
+    def goods(request):
         data = GoodSerializer(Good.objects.all(), many=True).data
         return Response(data)
 
-
-
-@api_view(['GET'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([AllowAny])
-def token_check(request):
-    auth_header = request.headers.get('Authorization')
-    if auth_header and auth_header.startswith('Token '):
-        token = auth_header.split(' ')[1]
-        user_token = Token.objects.get(user=request.user).key # получение токена пользователя из базы данных
-        if token == user_token:
-            data = request.user.username
-            return Response({'result': True, 'username': data})
+class TokenView:
+    @staticmethod
+    @api_view(['GET'])
+    @authentication_classes([TokenAuthentication])
+    @permission_classes([AllowAny])
+    def token_check(request):
+        auth_header = request.headers.get('Authorization')
+        if auth_header and auth_header.startswith('Token '):
+            token = auth_header.split(' ')[1]
+            user_token = Token.objects.get(user=request.user).key # получение токена пользователя из базы данных
+            if token == user_token:
+                data = request.user.username
+                return Response({'result': True, 'username': data})
+            else:
+                return Response({'result': False})
         else:
             return Response({'result': False})
-    else:
-        return Response({'result': False})

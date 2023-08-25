@@ -1,11 +1,12 @@
 from django.urls import path
-from projjjapi import views
+from .views import UserProfileView, UserAuthView, GoodView, TokenView
 
 urlpatterns = [
-    path('testcontent/', views.goods, name='goods'),
-    path('register/', views.register, name='api_register'),
-    path('login/', views.login, name='login'),
-    path('tokencheck/', views.token_check, name='token_check'),
-    path('profile/', views.userData, name='create_user'),
-    path('testoken/', views.ifLogin, name='testoken'),
+    path('testcontent/', GoodView.goods, name='goods'),
+    path('register/', UserAuthView.register, name='api_register'),
+    path('login/', UserAuthView.login, name='login'),
+    path('tokencheck/', TokenView.token_check, name='token_check'),
+    path('profile/', UserProfileView.userData, name='create_user'),
+    path('testoken/', UserProfileView.ifLogin, name='testoken'),
+    path('profile/update/', UserProfileView.update_profile, name='update_profile'),
 ]
