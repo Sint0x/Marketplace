@@ -1,17 +1,15 @@
 from rest_framework.request import Request
-from django.contrib.auth.forms import UserCreationForm
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authentication import TokenAuthentication
-from .serializers import LoginRequestSerializer, TokenSeriazliser, GoodSerializer, CustomUserSerializer
+from .serializers import LoginRequestSerializer, TokenSeriazliser, GoodSerializer, UserSerializer
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
 from rest_framework import serializers, viewsets, status
-from django.contrib.auth.models import User
-from projjjapi import serializers
-from .models import CustomUserCreationForm, Good
-from django.http import JsonResponse
+
+
+
 
 
 class UserProfileView:
@@ -20,7 +18,7 @@ class UserProfileView:
     @permission_classes([IsAuthenticated])
     @authentication_classes([TokenAuthentication])
     def userData(request):
-        serializer = CustomUserSerializer(request.user)
+        serializer = UserSerializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @staticmethod
@@ -28,7 +26,7 @@ class UserProfileView:
     @permission_classes([IsAuthenticated])
     @authentication_classes([TokenAuthentication])
     def update_profile(request):
-        serializer = CustomUserSerializer(request.user, data=request.data, partial=True)
+        serializer = UserSerializer(request.user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_200_OK)
@@ -48,9 +46,9 @@ class UserAuthView:
     @staticmethod
     @api_view(['POST'])
     def register(request):
-        form = CustomUserCreationForm(request.data)
-        if form.is_valid():
-            user = form.save()
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
             return Response({'username': user.username}, status=status.HTTP_201_CREATED)
         else:
             return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -71,7 +69,7 @@ class UserAuthView:
             token = Token.objects.create(user=authenticated_user)
             return Response(TokenSeriazliser(token).data)
         else:
-            return Response(serializer.errors, status=400)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class GoodView:
     @staticmethod
