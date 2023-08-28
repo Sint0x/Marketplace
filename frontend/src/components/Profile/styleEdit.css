@@ -1,0 +1,129 @@
+.header {
+    background-color: rgb(31, 31, 31);
+    color: white;
+    height: 5vh;
+    border-bottom: 1px solid rgb(42, 42, 42);
+  }
+  
+  .center {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: calc(100vh - 5vh);
+      padding-top:20px; /* Отступ сверху */
+  }
+  
+  .box {
+      background-color: rgb(31, 31, 31);
+      border-radius:25px;
+      padding:20px;
+      border:1px solid rgb(66,66,66);
+      /* width:calc(50% - (40px + (2 *1px))); */
+      min-width:800px; /* Добавление минимальной ширины */
+      position: relative;
+      max-width: 1000px;
+  }
+  
+  .profile {
+      display:flex;
+  }
+  
+  .avatar {
+      width:300px; /* Увеличение размера аватара */
+      height:300px; /* Увеличение размера аватара */
+      border-radius:50%;
+      overflow:hidden;
+  }
+  
+  .avatarblock {
+      display:block;
+  
+  }
+  
+  .text {
+      display:flex; /* Изменение свойства display с block на flex */
+      flex-direction: column; /* Добавление свойства flex-direction со значением column */
+      margin-left:40px; /* Увеличение отступа слева */
+      margin-top: 50px;
+  }
+  
+  
+  .nickname {
+      font-size:40px; /* Увеличение размера шрифта */
+      color:white;
+      font-family:Verdana;
+      
+       /* Добавление отступа снизу */
+       margin-bottom:0; /* Удаление отступа снизу */
+       display:inline-block; /* Добавление inline-block для выравнивания с рейтингом */
+  }
+  
+  .rating { /* Добавление стилей для рейтинга */
+      font-size:29px; 
+      color:white;
+      font-family:Verdana;
+      margin-right:0; /* Удаление отступа справа */
+  }
+  
+  .rating::after { /* Добавление иконки звезды после рейтинга */
+     content:'\2605';
+     margin-left:5px;
+     font-size:29px; 
+     color:white;
+  }
+  
+  .name {
+      font-size:29px; /* Увеличение размера шрифта */
+      color:white;
+      font-family:Garamond;
+  }
+  
+  
+  .logout-button,
+  .edit-button
+   {
+      background-color: rgb(31, 31, 31);
+      border: rgb(41, 41, 41);
+      border-style: solid;
+      border-width: 1px;
+      margin-left: 10px;
+      color:white;
+      font-family: Verdana;
+      padding:10px;
+  
+  }
+  .logout-button:hover,
+  .edit-button:hover {
+      background-color: rgb(41, 41, 41);
+      cursor: pointer;
+  }
+  .bottons {
+      position: absolute; /* Добавление абсолютного позиционирования */
+      top: 10px; /* Отступ сверху */
+      right: 10px; /* Отступ справа */
+  }
+  
+  .description {
+      font-size:16px; /* Увеличение размера шрифта */
+      color:white;
+      font-family:Verdana;
+  }
+  /* Удаление стилей для кнопок редактирования и выхода */
+  .textarea-inputs {
+  background-color: rgb(42, 42, 42);
+  width: 100%;
+  color: white;
+  font-size: 30px;
+  overflow: inherit;
+  resize: none;
+  
+  }
+  @media (max-width: 412px) {
+      .box {
+          width:70%; /* Установите ширину на 90%, чтобы оставить немного пространства по краям */
+          min-width:0; /* Установите минимальную ширина на 0, чтобы она не превышала ширину экрана */
+      }
+  }
+  [data-unselectable]::after {
+    content: attr(data-unselectable);
+  }
