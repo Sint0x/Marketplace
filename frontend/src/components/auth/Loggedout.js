@@ -1,18 +1,17 @@
-import { Link } from 'react-router-dom';
+import Header from '../Elements/Header/Header';
+
 
 // страница на которую редиректит в случае перехода анонимусом на приват контент
 const Loggedout = () => {
   return (
-    <div>
-      <h1>ты разлогинен, войди</h1>
-      <li>
-        <Link to="/login">войти</Link>
-      </li>
-      <li>
-        <Link to="/">На Главную</Link>
-      </li>
-    </div>
+    <>
+        <Header />
+        <div className="center">
+            <div className="box" style={{ color: 'white', textAlign: 'center' }}>
+                <h1>РАЗЛОГИНЕН, ВОЙДИ. КНОПКА В ХЕДЕРЕ</h1>
+            </div>
+        </div>
+    </>
   );
-};
-  
+}
 export default Loggedout;
