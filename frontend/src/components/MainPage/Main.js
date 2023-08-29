@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import GoodsCard from '../Goods/GoodsCard';
 import LogoutButton from '../auth/logout';
+import Header from '../Elements/Header/Header';
+import './style.css'
+
+
 
 // главная страница с контентом карточки товара
 const MainPage = () => {
@@ -42,6 +46,8 @@ const MainPage = () => {
   }, []);
 
   return (
+    <>
+    <Header />
     <div>
       <h1>MainPage</h1>
       {auth ? (
@@ -60,6 +66,7 @@ const MainPage = () => {
       {message && <p>{message}</p>}
       <GoodsCard />
     </div>
+    </>
   );
 };
 

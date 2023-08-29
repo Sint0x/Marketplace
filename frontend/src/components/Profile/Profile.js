@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Header from '../Elements/Header/Header';
 import './style.css';
 import LogoutButton from '../auth/logout';
 
@@ -34,9 +35,7 @@ function Profile() {
     console.log(userData.profile_description)
     return (
       <>
-      <nav className="header">
-      </nav>
-
+      <Header />
       <div className="center">
           <div className="box">
               <div className="profile">
@@ -62,16 +61,3 @@ function Profile() {
 }
 
 export default Profile;
-
-
-/* <div>
-<h1>Profile</h1>
-<p>Username: {userData.username}</p>
-<p>Email: {userData.email}</p>
-<p>First name: {userData.first_name}</p>
-<p>Last name: {userData.last_name}</p>
-<p>Profile description: {userData.profile_description}</p>
-<li>
-  <Link to="/">На Главную</Link>
-</li>
-</div> */

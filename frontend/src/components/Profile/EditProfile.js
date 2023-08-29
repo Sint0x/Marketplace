@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './styleEdit.css';
+import Header from '../Elements/Header/Header';
+import './style.css';
 const myImage = require('./avatars/srgay.jpg');
 
 
@@ -65,9 +66,7 @@ function UpdateProfileForm() {
 
   return (
     <>
-      <nav className="header">
-      </nav>
-
+      <Header />
       <div className="center">
           <div className="box">
               <div className="profile">
