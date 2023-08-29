@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import GoodsCard from '../Goods/GoodsCard';
-import LogoutButton from '../auth/logout';
 import Header from '../Elements/Header/Header';
 import './style.css'
+
+
 
 
 
@@ -39,7 +39,6 @@ const MainPage = () => {
         .then((response) => response.json())
         .then((data) => {
           setAuth(data.result);
-          // setUsername('qweqwrrwqw');
           setUsername(data.username);
         });
     }
@@ -47,27 +46,15 @@ const MainPage = () => {
 
   return (
     <>
-    <Header />
-    <div>
-      <h1>MainPage</h1>
-      {auth ? (
-        <>
-          <h4>{username}</h4>
-          <li><LogoutButton /></li>
-        </>
-      ) : (
-        <li>
-          <Link to="/login">войти</Link>
-        </li>
-      )}
-      <li>
-        <Link to="/profile">Профиль</Link>
-      </li>
-      {message && <p>{message}</p>}
-      <GoodsCard />
-    </div>
+        <Header />
+        <div className="center">
+            <div className="box" style={{ color: 'white' }}>
+                <h1>MainPage ||| тут пока пусто</h1>
+                {message && <p>{message}</p>}
+                <GoodsCard />
+            </div>
+        </div>
     </>
-  );
-};
-
+);
+}
 export default MainPage;
