@@ -5,7 +5,7 @@ from .models import User, Good
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('profile_description', 'rating')}),
+        (None, {'fields': ('profile_description', 'rating', 'profile_image' )}),
     )
 
 @admin.register(Good)

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../Elements/Header/Header';
 import './style.css';
-const myImage = require('./avatars/srgay.jpg');
+import Header from '../Elements/Header/Header';
 
 
 function UpdateProfileForm() {
@@ -11,6 +10,7 @@ function UpdateProfileForm() {
     last_name: '',
     profile_description: ''
   });
+  const [profileImage, setProfileImage] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +28,10 @@ function UpdateProfileForm() {
           last_name: data.last_name,
           profile_description: data.profile_description
         });
+        // Извлечение имени файла из строки с путем к файлу
+        const parts = data.profile_image.split('/');
+        const filename = parts[parts.length - 1];
+        setProfileImage(require('../../images/avatars/' + filename));
       });
   }, []);
   if (!FormData) {
@@ -66,11 +70,11 @@ function UpdateProfileForm() {
 
   return (
     <>
-      <Header />
+    <Header />
       <div className="center">
           <div className="box">
               <div className="profile">
-                  <div className="avatarblock"><img className="avatar" src={myImage} alt="" /></div>
+                  <div className="avatarblock"><img className="avatar" src={profileImage} alt="" /></div>
                   <div className="text">
                       <div className="bottons">
                           <button className="edit-button" onClick={handleSaveClick}>Сохранить</button>
