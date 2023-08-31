@@ -20,10 +20,13 @@ class TokenSeriazliser(ModelSerializer):
         fields = ['key']
 
 class GoodSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
+    first_name = serializers.CharField(source='user.first_name', read_only=True)
+    last_name = serializers.CharField(source='user.last_name', read_only=True)
+    rating = serializers.CharField(source='user.rating', read_only=True)
     class Meta:
         model = Good
-        fields = ('user', 'description_goods', 'price', 'images', 'namegoods', 'afrom')
-
+        fields = ('username', 'first_name', 'last_name', 'rating', 'description_goods', 'price', 'images', 'namegoods', 'afrom')
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

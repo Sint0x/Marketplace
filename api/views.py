@@ -74,6 +74,29 @@ class GoodView:
         data = GoodSerializer(Good.objects.all(), many=True).data
         return Response(data)
 
+
+    @api_view(['POST'])
+    @authentication_classes([TokenAuthentication])
+    @permission_classes([IsAuthenticated])
+    def add_good(request):
+        user = request.user
+        description_goods = request.data.get('description_goods')
+        price = request.data.get('price')
+        images = request.FILES.get('images')
+        namegoods = request.data.get('namegoods')
+        afrom = request.data.get('afrom')
+
+        good = Good.objects.create(
+            user=user,
+            description_goods=description_goods,
+            price=price,
+            images=images,
+            namegoods=namegoods,
+            afrom=afrom
+        )
+
+        return Response({'message': 'Товар успешно добавлен'}, status=status.HTTP_201_CREATED)
+
 class TokenView:
     @staticmethod
     @api_view(['GET'])

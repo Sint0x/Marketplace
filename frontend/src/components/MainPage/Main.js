@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import GoodsCard from '../Goods/GoodsCard';
+import GoodsCard from '../Elements/Goods/GoodsCard';
 import Header from '../Elements/Header/Header';
 import './style.css'
 
@@ -49,8 +49,7 @@ const MainPage = () => {
         <Header />
         <div className="center">
             <div className="box" style={{ color: 'white' }}>
-                <h1>MainPage ||| тут пока пусто</h1>
-                {message && <p>{message}</p>}
+                <h1>РЕКОМЕНДАЦИИ:</h1>
                 <GoodsCard />
             </div>
         </div>

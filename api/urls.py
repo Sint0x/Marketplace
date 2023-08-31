@@ -9,4 +9,5 @@ urlpatterns = [
     path('profile', UserProfileView.userData, name='create_user'),
     path('testoken', UserProfileView.ifLogin, name='testoken'),
     path('profile/update', UserProfileView.update_profile, name='update_profile'),
+    path('add_good', GoodView.add_good, name='add_goods'),
 ]

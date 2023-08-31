@@ -1,0 +1,50 @@
+
+.card {
+    width: 950px;
+}
+.product-card {
+    display: flex;
+    margin: 10px;
+    background-color: rgb(31,31,31);
+    border: 1px solid rgb(66, 66, 66);
+    border-radius: 25px;
+    max-height: 270px;
+    
+}
+ 
+.product-image {
+    margin: 10px;
+
+}
+.image {
+    border-radius: 14px;
+    height: 245px;
+    width: 175px;
+    object-fit: cover;
+
+}
+
+.good_name {
+    margin-top: 5px;
+}
+.good_price {
+    margin-top: -10px;
+}
+.discripto {
+    width: 730px;
+    word-wrap: break-word;
+
+}
+.good_adress {
+    transform: translateY(2vh);
+
+}
+.good_adress {
+    width: 500px;
+}
+.adress {
+    display: flex;
+}
+.space {
+    height: 170px;
+}
