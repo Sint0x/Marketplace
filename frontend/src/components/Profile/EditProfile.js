@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './style.css';
+import Header from '../Elements/Header/Header';
+
+
 
 function UpdateProfileForm() {
   const [formData, setFormData] = useState({
@@ -76,6 +80,7 @@ function UpdateProfileForm() {
 
   return (
     <>
+      <Header />
       <div className="center">
           <div className="box">
               <div className="profile">
