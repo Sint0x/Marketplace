@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './style.css';
 import Header from '../Elements/Header/Header';
-
-
+import Linkify from 'react-linkify';
 
 // профиль юзера с контентом
 function Profile() {
@@ -40,6 +39,14 @@ function Profile() {
     const myImage = require('../../images/avatars/' + filename);
 
     console.log(userData.profile_description)
+    
+    const linkDecorator = (href, text, key) => (
+      <a href={href} key={key} style={{ color: 'PaleVioletRed' }}
+        onMouseEnter={e => e.target.style.color = 'DeepPink'} onMouseLeave={e => e.target.style.color = 'PaleVioletRed'}>
+        {text}
+      </a>
+    );
+    
     return (
       <>
       <Header />
@@ -53,14 +60,13 @@ function Profile() {
                           <button className="logout-button" onClick={handleLogoutClick}>Выйти</button>
                       </div>
                       <div className="nickname-rating"> 
-                          
                           <div className="nickname">{userData.username}</div>
                           <div className="name" style={{marginTop: "15px"}}>{userData.first_name} {userData.last_name}</div>
                           <div className="rating">Рейтинг: {userData.rating}</div>
                       </div>
                   </div>   
               </div>
-              <div className="description">{userData.profile_description}</div>
+              <div className="description"><Linkify componentDecorator={linkDecorator}>{userData.profile_description}</Linkify></div>
           </div>
       </div>
       </>

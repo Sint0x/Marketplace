@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import GoodsCard from '../Elements/Goods/GoodsCard';
+import ProductCard from '../Elements/Goods/ProductCard';
 import Header from '../Elements/Header/Header';
 import './style.css'
 
@@ -50,7 +50,7 @@ const MainPage = () => {
         <div className="center">
             <div className="box" style={{ color: 'white' }}>
                 <h1>РЕКОМЕНДАЦИИ:</h1>
-                <GoodsCard />
+                <ProductCard />
             </div>
         </div>
     </>

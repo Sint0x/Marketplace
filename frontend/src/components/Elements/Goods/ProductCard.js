@@ -40,7 +40,7 @@ const GoodsCard = () => {
         console.log(id)
         if (images) {
           const imageName = images.split('/').pop();
-          myImage = require(`../../../goods/images/${imageName}`);
+          myImage = require(`./../../../goods/images/${imageName}`);
         } else {
           myImage = require(`../../../goods/images/IMG_20230804_134452_081.jpg`);
         }
