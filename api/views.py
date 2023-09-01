@@ -24,8 +24,12 @@ class UserProfileView:
     @permission_classes([IsAuthenticated])
     @authentication_classes([TokenAuthentication])
     def update_profile(request):
-        serializer = UserSerializer(request.user, data=request.data, partial=True)
+        user = request.user
+        serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
+            if 'profile_image' in request.FILES:
+                user.profile_image = request.FILES['profile_image']
+                user.save()
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
