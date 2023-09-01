@@ -7,10 +7,8 @@ from .serializers import LoginRequestSerializer, TokenSeriazliser, GoodSerialize
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
 from rest_framework import serializers, viewsets, status
-from .models import Good
+from .models import Good, User
 from django.shortcuts import get_object_or_404
-
-
 
 class UserProfileView:
     @staticmethod
@@ -46,10 +44,14 @@ class UserAuthView:
     @staticmethod
     @api_view(['POST'])
     def register(request):
+        username = request.data.get('username')
+        if User.objects.filter(username=username).exists():
+            return Response({'error': 'Пользователь с таким логином уже существует'}, status=status.HTTP_400_BAD_REQUEST)
+        
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            return Response({'username': user.username}, status=status.HTTP_201_CREATED)
+            return Response({'success': 'Вы успешно зарегистрировались! Пожалуйста, войдите в систему.'}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -60,6 +62,8 @@ class UserAuthView:
         serializer = LoginRequestSerializer(data=request.data)
         if serializer.is_valid():
             authenticated_user = authenticate(**serializer.validated_data)
+            if authenticated_user is None:
+                return Response({'error': 'Неверный логин или пароль'}, status=status.HTTP_400_BAD_REQUEST)
             try:
                 token = Token.objects.get(user=authenticated_user)
                 token.delete()
@@ -68,7 +72,8 @@ class UserAuthView:
             token = Token.objects.create(user=authenticated_user)
             return Response(TokenSeriazliser(token).data)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Некорректные данные'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class GoodView:
     @staticmethod
@@ -76,7 +81,7 @@ class GoodView:
     def goods(request):
         data = GoodSerializer(Good.objects.all(), many=True).data
         return Response(data)
-
+    
 
     @authentication_classes([TokenAuthentication])
     @permission_classes([AllowAny])
@@ -92,29 +97,6 @@ class GoodView:
             'afrom': good.afrom
         }
         return Response(data)
-
-
-    @api_view(['POST'])
-    @authentication_classes([TokenAuthentication])
-    @permission_classes([IsAuthenticated])
-    def add_good(request):
-        user = request.user
-        description_goods = request.data.get('description_goods')
-        price = request.data.get('price')
-        images = request.FILES.get('images')
-        namegoods = request.data.get('namegoods')
-        afrom = request.data.get('afrom')
-
-        good = Good.objects.create(
-            user=user,
-            description_goods=description_goods,
-            price=price,
-            images=images,
-            namegoods=namegoods,
-            afrom=afrom
-        )
-
-        return Response({'message': 'Товар успешно добавлен'}, status=status.HTTP_201_CREATED)
 
 
     @api_view(['POST'])

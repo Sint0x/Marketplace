@@ -114,15 +114,14 @@
 
 }
 .textarea-inputs {
-background-color :rgb(42,42,42);
+background-color : rgb(31,31,31);
 width :100%;
 color:white;
 font-size :30px;
-
 overflow :inherit;
-
 resize:none;
-
+border:1px solid rgb(150,150,150);
+border-radius: 20px;
 }
 @media (max-width :412px) {
 .box {

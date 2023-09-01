@@ -34,9 +34,14 @@ function Profile() {
     }
     
     // Извлечение имени файла из строки с путем к файлу
-    const parts = userData.profile_image.split('/');
-    const filename = parts[parts.length - 1];
-    const myImage = require('../../images/avatars/' + filename);
+    let myImage;
+    try {
+        const parts = userData.profile_image.split('/');
+        const filename = parts[parts.length - 1];
+        myImage = require('./../../images/avatars/' + filename);
+    } catch (error) {
+        myImage = require('./../../images/avatars/IMG_20230804_134452_081.jpg');
+    }
 
     console.log(userData.profile_description)
     

@@ -29,9 +29,15 @@ function UpdateProfileForm() {
           profile_description: data.profile_description
         });
         // Извлечение имени файла из строки с путем к файлу
-        const parts = data.profile_image.split('/');
-        const filename = parts[parts.length - 1];
-        setProfileImage(require('../../images/avatars/' + filename));
+        let myImage;
+        try {
+            const parts = data.profile_image.split('/');
+            const filename = parts[parts.length - 1];
+            myImage = require('../../images/avatars/' + filename);
+        } catch (error) {
+            myImage = require('../../images/avatars/IMG_20230804_134452_081.jpg');
+        }
+        setProfileImage(myImage);
       });
   }, []);
   if (!FormData) {
@@ -82,12 +88,12 @@ function UpdateProfileForm() {
                       </div>
                       <div className="nickname-rating"> 
                           
-                          <div className="nickname"><input className="textarea-inputs" name="first_name" type="text" value={formData.first_name} onChange={handleChange} /></div>
-                          <div className="name" style={{marginTop: "30px"}}><input className="textarea-inputs" style={{fontFamily: "Garamond"}} name="last_name" type="text" value={formData.last_name} onChange={handleChange} /></div>
+                          <div className="nickname"><input className="textarea-inputs" name="first_name" placeholder='имя' type="text" value={formData.first_name} onChange={handleChange} /></div>
+                          <div className="name" style={{marginTop: "30px"}}><input className="textarea-inputs" placeholder='фамилия' style={{fontFamily: "Garamond"}} name="last_name" type="text" value={formData.last_name} onChange={handleChange} /></div>
                       </div>
                   </div>   
               </div>
-              <div className="name"><textarea style={{fontSize: "20px"}} className="textarea-inputs" cols="80vh" rows="5" name="profile_description" type="text" value={formData.profile_description} onChange={handleChange}></textarea></div>
+              <div className="name"><textarea style={{fontSize: "20px"}} className="textarea-inputs" cols="80vh" rows="5" name="profile_description" type="text" placeholder='описание профиля'value={formData.profile_description} onChange={handleChange}></textarea></div>
           </div>
       </div>
     </>
