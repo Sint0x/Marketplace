@@ -26,7 +26,7 @@ class GoodSerializer(serializers.ModelSerializer):
     rating = serializers.CharField(source='user.rating', read_only=True)
     class Meta:
         model = Good
-        fields = ('username', 'first_name', 'last_name', 'rating', 'description_goods', 'price', 'images', 'namegoods', 'afrom')
+        fields = ('id', 'username', 'first_name', 'last_name', 'rating', 'description_goods', 'price', 'images', 'namegoods', 'afrom')
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

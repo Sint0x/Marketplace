@@ -7,6 +7,9 @@ from .serializers import LoginRequestSerializer, TokenSeriazliser, GoodSerialize
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
 from rest_framework import serializers, viewsets, status
+from .models import Good
+from django.shortcuts import get_object_or_404
+
 
 
 class UserProfileView:
@@ -73,6 +76,45 @@ class GoodView:
     def goods(request):
         data = GoodSerializer(Good.objects.all(), many=True).data
         return Response(data)
+
+
+    @authentication_classes([TokenAuthentication])
+    @permission_classes([AllowAny])
+    @api_view(['GET'])
+    def product_detail(request, id):
+        good = get_object_or_404(Good, pk=id)
+        data = {
+            'user': good.user.username,
+            'description_goods': good.description_goods,
+            'price': good.price,
+            'images': good.images.url if good.images else None,
+            'namegoods': good.namegoods,
+            'afrom': good.afrom
+        }
+        return Response(data)
+
+
+    @api_view(['POST'])
+    @authentication_classes([TokenAuthentication])
+    @permission_classes([IsAuthenticated])
+    def add_good(request):
+        user = request.user
+        description_goods = request.data.get('description_goods')
+        price = request.data.get('price')
+        images = request.FILES.get('images')
+        namegoods = request.data.get('namegoods')
+        afrom = request.data.get('afrom')
+
+        good = Good.objects.create(
+            user=user,
+            description_goods=description_goods,
+            price=price,
+            images=images,
+            namegoods=namegoods,
+            afrom=afrom
+        )
+
+        return Response({'message': 'Товар успешно добавлен'}, status=status.HTTP_201_CREATED)
 
 
     @api_view(['POST'])

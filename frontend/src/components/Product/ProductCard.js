@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
-
+import { useNavigate } from 'react-router-dom';
 const GoodsCard = () => {
   const [products, setProducts] = useState([]);
   const filtersRef = useRef(null);
+  const navigate = useNavigate();
 
   const myFunction = () => {
     if (filtersRef.current.style.display === "none") {
@@ -23,6 +24,10 @@ const GoodsCard = () => {
       .then((data) => setProducts(data));
   }, []);
 
+  const handleProductClick = (id) => {
+    navigate('/product/' + id);
+  }
+
   if (products.length === 0) {
     return <p>No goods</p>;
   }
@@ -30,16 +35,17 @@ const GoodsCard = () => {
   return (
     <div className='card'>
       {products.map((product) => {
-        const { username, rating, first_name, last_name, description_goods, price, images, namegoods, goods_id, afrom } = product;
+        const { username, rating, first_name, last_name, description_goods, price, images, id, namegoods, afrom } = product;
         let myImage;
+        console.log(id)
         if (images) {
           const imageName = images.split('/').pop();
-          myImage = require(`../../../goods/images/${imageName}`);
+          myImage = require(`./../../goods/images/${imageName}`);
         } else {
-          myImage = require(`../../../goods/images/IMG_20230804_134452_081.jpg`);
+          myImage = require(`./../../goods/images/IMG_20230804_134452_081.jpg`);
         }
         return (
-          <div key={goods_id} className="product-card">
+          <div key={id} onClick={() => handleProductClick(id)} className="product-card">
             <div className="product-image">
               {myImage && <img className="image" src={myImage} alt={namegoods} />}
             </div>

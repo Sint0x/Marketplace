@@ -8,6 +8,9 @@ import AnonymousRoute from "../routes/AnonymousRoute";
 import Loggedout from "../auth/Loggedout";
 import UpdateProfileForm from "../Profile/EditProfile";
 import AddGoodForm from "../Elements/Goods/GoodAdd";
+import ProductPage from "../Product/ProductPage";
+
+
 
 //роуты
 export default function MembersRouter() {
@@ -19,6 +22,7 @@ export default function MembersRouter() {
         <Route path="/profile/edit" element={<PrivateRoute><UpdateProfileForm /></PrivateRoute>} />
         <Route path="/creategood" element={<AddGoodForm />} />
         <Route path="/Loggedout" element={<Loggedout />} />
+        <Route exact path="/product/:id" element={<ProductPage />} />
       </Routes>
   );
 }
