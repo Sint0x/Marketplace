@@ -7,7 +7,7 @@ import PrivateRoute from "../routes/PrivateRoute";
 import AnonymousRoute from "../routes/AnonymousRoute";
 import Loggedout from "../auth/Loggedout";
 import UpdateProfileForm from "../Profile/EditProfile";
-import AddGoodForm from "../Elements/Goods/GoodAdd";
+import AddGoodForm from "../Product/GoodAdd";
 import ProductPage from "../Product/ProductPage";
 
 

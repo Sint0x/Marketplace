@@ -19,7 +19,7 @@ const GoodsCard = () => {
   }
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/testcontent')
+    fetch('http://127.0.0.1:8000/api/productlist')
       .then((response) => response.json())
       .then((data) => setProducts(data));
   }, []);
@@ -40,9 +40,9 @@ const GoodsCard = () => {
         console.log(id)
         if (images) {
           const imageName = images.split('/').pop();
-          myImage = require(`./../../goods/images/${imageName}`);
+          myImage = require(`../../../goods/images/${imageName}`);
         } else {
-          myImage = require(`./../../goods/images/IMG_20230804_134452_081.jpg`);
+          myImage = require(`../../../goods/images/IMG_20230804_134452_081.jpg`);
         }
         return (
           <div key={id} onClick={() => handleProductClick(id)} className="product-card">
