@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
+/* Здесь стили страницы товаров */
 
 .card {
     width: 950px;
@@ -9,6 +11,7 @@
     border: 1px solid rgb(66, 66, 66);
     border-radius: 25px;
     max-height: 270px;
+    cursor: pointer;
     
 }
  
@@ -47,4 +50,82 @@
 }
 .space {
     height: 170px;
+}
+/* Здесь начинаются стили для добавления товара */
+.tags {
+    display: flex;
+    width: 250px;
+    color: rgba(255, 255, 255, 0.575);
+}
+.inputs {
+    display: flex;
+    height: 35px;
+    margin: 15px;
+
+}
+.field {
+    border-radius: 10px;
+    border:1px solid rgb(66,66,66);
+    color :white;
+    background-color: rgba(255, 255, 255, 0.575);
+    background-image: linear-gradient(to top, black 20%, gray);
+    background-clip: text;
+    font-family: "Comic Sans MS", "Comic Sans" , bold;
+    margin: 5px;
+}
+
+.span {
+    background-image: linear-gradient(to top, gray 20%, white);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: large;
+}
+.inname {
+    width: 350px;
+}
+.inprice {
+    width: 100px;
+}
+.pricevalue{
+    transform: translateY(-8px);
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none; 
+        user-select: none; 
+    }
+.inner-spin-button {
+    display:none;
+}
+.inprice input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+.divdesc {
+    margin-bottom: 205px;
+}
+.indesc {
+    width: 350px;
+    height: 200px;
+}
+
+.inpicture {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.addfile {
+    padding: 8px;
+    border-radius: 10px;
+    border:1px solid rgb(66,66,66);
+    
+}
+.infrom {
+    width: 300px;
 }

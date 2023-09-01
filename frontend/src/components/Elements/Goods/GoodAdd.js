@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Header from '../Header/Header';
-
 function AddGoodForm() {
     const [descriptionGoods, setDescriptionGoods] = useState('');
     const [price, setPrice] = useState('');
@@ -41,54 +40,57 @@ function AddGoodForm() {
         }
     }
 
-    return (
-        <>
-            <Header />
+
+return (
+    <>
+    <Header />
+    <div className="center" >
+        <div className="box">
             <form onSubmit={handleSubmit}>
-                <label>
-                    Описание товара:
-                    <input
-                        type="text"
-                        value={descriptionGoods}
-                        onChange={event => setDescriptionGoods(event.target.value)}
-                    />
-                </label><br />
-                <label>
-                    Цена:
-                    <input
-                        type="text"
-                        value={price}
-                        onChange={event => setPrice(event.target.value)}
-                    />
-                </label><br />
-                <label>
-                    Изображение:
-                    <input
-                        type="file"
-                        onChange={event => setImages(event.target.files[0])}
-                    />
-                </label><br />
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                <label>
-                    Название товара:
-                    <input
+            <div className="divname inputs"><p className='tags'>Название товара</p>
+                    <input className='inname field'
                         type="text"
                         value={namegoods}
                         onChange={event => setNamegoods(event.target.value)}
                     />
-                </label><br />
-                <label>
-                    Место происхождения:
-                    <input
+                </div>
+                <div className="divprice inputs"><p className='tags'>Цена</p>
+                    <input className='inprice field'
+                        type="number"
+                        pattern="[0-9]"
+                        value={price}
+                        onChange={event => setPrice(event.target.value)}
+                    />
+                    <p className='pricevalue tags'>руб.</p>
+                </div>
+                <div className="divdesc inputs"><p className='tags'>Описание товара</p>
+                    <textarea className='indesc field'
+                        type="text" 
+                        value={descriptionGoods}
+                        onChange={event => setDescriptionGoods(event.target.value)}/>
+                </div>
+                <div className="divfrom inputs"><p className='tags'>Место происхождения</p>
+                    <input className='infrom field'
                         type="text"
                         value={afrom}
                         onChange={event => setAfrom(event.target.value)}
                     />
-                </label><br />
-                <button type="submit">Добавить товар</button>
+                </div>
+                <div className="divpicture inputs"><p className='tags'>Изображение</p>
+                    <input id='input' className='inpicture field' style={{marginTop:'15px'}}
+                        type="file"
+                        aria-hidden="false"
+                        onChange={event => setImages(event.target.files[0])}
+                    />
+                    <label className='addfile' for="input"><span className='span'>Добавить файл</span></label>
+                </div>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <button className='addfile span' type="submit">Добавить товар</button>
             </form>
-        </>
-    );
+        </div>
+    </div>
+    </>
+);
 }
 
 export default AddGoodForm;
