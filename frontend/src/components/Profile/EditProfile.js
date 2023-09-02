@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './style.css';
-import Header from '../Elements/Header/Header';
+import { useParams } from 'react-router-dom';
 
 
 
@@ -14,10 +13,11 @@ function UpdateProfileForm() {
   const [profileImage, setProfileImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const navigate = useNavigate();
-
+  const { id } = useParams();
+  const [initialData, setInitialData] = useState(null);
   useEffect(() => {
     const token = localStorage.getItem("key");
-    fetch('http://127.0.0.1:8000/api/profile', {
+    fetch(`http://127.0.0.1:8000/api/user/${id}`, {
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
         'Authorization': `Token ${token}`,
@@ -25,6 +25,7 @@ function UpdateProfileForm() {
     })
       .then(response => response.json())
       .then(data => {
+        setInitialData(data);
         setFormData({
           first_name: data.first_name,
           last_name: data.last_name,
@@ -38,9 +39,9 @@ function UpdateProfileForm() {
         } catch (error) {
             myImage = require('../../images/avatars/IMG_20230804_134452_081.jpg');
         }
-        setProfileImage(myImage);
+        setPreviewImage(myImage);
       });
-  }, []);
+    }, []);
 
   if (!formData) {
     return <div>Loading...</div>;
@@ -49,15 +50,21 @@ function UpdateProfileForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formDataObj = new FormData();
-    formDataObj.append('first_name', formData.first_name);
-    formDataObj.append('last_name', formData.last_name);
-    formDataObj.append('profile_description', formData.profile_description);
+    if (formData.first_name !== initialData.first_name) {
+      formDataObj.append('first_name', formData.first_name);
+    }
+    if (formData.last_name !== initialData.last_name) {
+      formDataObj.append('last_name', formData.last_name);
+    }
+    if (formData.profile_description !== initialData.profile_description) {
+      formDataObj.append('profile_description', formData.profile_description);
+    }
     if (profileImage) {
       formDataObj.append('profile_image', profileImage);
     }
     try {
       const token = localStorage.getItem("key");
-      const response = await fetch('http://127.0.0.1:8000/api/profile/update', {
+      const response = await fetch(`http://127.0.0.1:8000/api/user/${id}/update`, {
         method: 'POST',
         headers: {
           'Authorization': `Token ${token}`
@@ -65,22 +72,21 @@ function UpdateProfileForm() {
         body: formDataObj
       });
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
-    navigate('/profile');
+    navigate(`/profile/${id}`);
     window.location.reload();
+
   }
 
   const handleCancelClick = () => {
-    navigate('/profile');
+    navigate(`/profile/${id}`);
     window.location.reload();
   }
 
   return (
     <>
-      <Header />
       <div className="center">
           <div className="box">
               <div className="profile">

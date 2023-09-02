@@ -15,19 +15,27 @@ class UserProfileView:
     @api_view(['GET'])
     @permission_classes([IsAuthenticated])
     @authentication_classes([TokenAuthentication])
-    def userData(request):
-        serializer = UserSerializer(request.user)
+    def userData(request, id):
+        user = User.objects.get(id=id)
+        serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @staticmethod
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
     @authentication_classes([TokenAuthentication])
-    def update_profile(request):
-        user = request.user
+    def update_profile(request, id):
+        # Check if user is updating their own profile
+        if request.user.id != id:
+            return Response({'detail': 'You do not have permission to update this profile.'}, status=status.HTTP_403_FORBIDDEN)
+        user = User.objects.get(id=id)
         serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             if 'profile_image' in request.FILES:
+                # Delete old profile image
+                if user.profile_image:
+                    user.profile_image.delete()
+                # Save new profile image
                 user.profile_image = request.FILES['profile_image']
                 user.save()
             serializer.save()

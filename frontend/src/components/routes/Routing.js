@@ -18,8 +18,8 @@ export default function MembersRouter() {
       <Routes>
         <Route path="/login" element={<AnonymousRoute><Auth /></AnonymousRoute>} />
         <Route path="/testoken" element={<MainPage />} />
-        <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-        <Route path="/profile/edit" element={<PrivateRoute><UpdateProfileForm /></PrivateRoute>} />
+        <Route exact path="/profile/:id" element={<PrivateRoute><Profile /></PrivateRoute>} />
+        <Route exact path="/profile/:id/edit" element={<PrivateRoute><UpdateProfileForm /></PrivateRoute>} />
         <Route path="/creategood" element={<AddGoodForm />} />
         <Route path="/Loggedout" element={<Loggedout />} />
         <Route exact path="/product/:id" element={<ProductPage />} />

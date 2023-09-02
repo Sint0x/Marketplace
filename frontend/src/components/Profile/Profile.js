@@ -1,22 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './style.css';
+import { useParams } from 'react-router-dom';
 import Header from '../Elements/Header/Header';
 import Linkify from 'react-linkify';
 
 // профиль юзера с контентом
 function Profile() {
     const [userData, setUserData] = useState(null);
+    const [currentUserId, setCurrentUserId] = useState(null);
     const navigate = useNavigate();
+    const { id } = useParams();
 
     useEffect(() => {
+        // Get current user id from token check endpoint
         const token = localStorage.getItem("key");
-        fetch('http://127.0.0.1:8000/api/profile', {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-          'Authorization': `Token ${token}`,
-        },
-      })
+        if (token) {
+            fetch('http://127.0.0.1:8000/api/tokencheck', {
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            })
+                .then(response => response.json())
+                .then(data => setCurrentUserId(data.user_id));
+        }
+
+        // Get profile data
+        fetch(`http://127.0.0.1:8000/api/user/${id}`, {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Authorization': `Token ${token}`,
+            },
+        })
             .then(response => response.json())
             .then(data => setUserData(data));
     }, []);
@@ -25,7 +40,7 @@ function Profile() {
     }
 
     const handleEditClick = () => {
-        navigate('/profile/edit');
+        navigate(`/profile/${id}/edit`);
     }
 
     const handleLogoutClick = () => {
@@ -42,8 +57,6 @@ function Profile() {
     } catch (error) {
         myImage = require('./../../images/avatars/IMG_20230804_134452_081.jpg');
     }
-
-    console.log(userData.profile_description)
     
     const linkDecorator = (href, text, key) => (
       <a href={href} key={key} style={{ color: 'PaleVioletRed' }}
@@ -60,10 +73,13 @@ function Profile() {
               <div className="profile">
                   <div className="avatarblock"><img className="avatar" src={myImage} alt="" /></div>
                   <div className="text">
-                      <div className="bottons">
-                          <button className="edit-button" onClick={handleEditClick}>Редактировать</button>
-                          <button className="logout-button" onClick={handleLogoutClick}>Выйти</button>
-                      </div>
+                      {/* Check if user is viewing their own profile */}
+                      {currentUserId === parseInt(id) && (
+                        <div className="bottons">
+                            <button className="edit-button" onClick={handleEditClick}>Редактировать</button>
+                            <button className="logout-button" onClick={handleLogoutClick}>Выйти</button>
+                        </div>
+                      )}
                       <div className="nickname-rating"> 
                           <div className="nickname">{userData.username}</div>
                           <div className="name" style={{marginTop: "15px"}}>{userData.first_name} {userData.last_name}</div>
