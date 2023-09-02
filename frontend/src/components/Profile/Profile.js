@@ -4,6 +4,8 @@ import './style.css';
 import { useParams } from 'react-router-dom';
 import Header from '../Elements/Header/Header';
 import Linkify from 'react-linkify';
+import UserProducts from '../Elements/Goods/UserProducts';
+
 
 // профиль юзера с контентом
 function Profile() {
@@ -82,12 +84,19 @@ function Profile() {
                       )}
                       <div className="nickname-rating"> 
                           <div className="nickname">{userData.username}</div>
-                          <div className="name" style={{marginTop: "15px"}}>{userData.first_name} {userData.last_name}</div>
+                          <div className="name" style={{ marginBottom: '20px' }}>{userData.first_name} {userData.last_name}</div>
                           <div className="rating">Рейтинг: {userData.rating}</div>
                       </div>
                   </div>   
               </div>
               <div className="description"><Linkify componentDecorator={linkDecorator}>{userData.profile_description}</Linkify></div>
+          </div>
+      </div>
+      <div className="center" style={{ }}>
+          <div className="box">
+              <div className="profile">
+                <UserProducts />
+              </div>
           </div>
       </div>
       </>

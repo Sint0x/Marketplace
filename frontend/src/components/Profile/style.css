@@ -9,11 +9,12 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: calc(100vh - 5vh);
+    /* height: calc(100vh - 5vh); */
     padding-top:20px; /* Отступ сверху */
 }
 
 .box {
+    
     background-color: rgb(31, 31, 31);
     border-radius:25px;
     padding:20px;
@@ -33,16 +34,18 @@
     height:300px; /* Увеличение размера аватара */
     border-radius:50%;
     overflow:hidden;
+    object-fit: cover;
 }
 
 .avatarblock {
-    display:block;
+    display: flex;
+    height: 310px;
 
 }
 
 .text {
     display:flex; /* Изменение свойства display с block на flex */
-    flex-direction: column; /* Добавление свойства flex-direction со значением column */
+    flex-direction: column;
     margin-left:40px; /* Увеличение отступа слева */
     margin-top: 50px;
 }
@@ -54,7 +57,7 @@
     font-family:Verdana;
 
      /* Добавление отступа снизу */
-     margin-bottom:0; /* Удаление отступа снизу */
+
      display:inline-block; /* Добавление inline-block для выравнивания с рейтингом */
 }
 
@@ -113,6 +116,8 @@
      word-wrap: break-word;
 
 }
+
+
 .textarea-inputs {
 background-color : rgb(31,31,31);
 width :100%;
@@ -121,7 +126,7 @@ font-size :30px;
 overflow :inherit;
 resize:none;
 border:1px solid rgb(150,150,150);
-border-radius: 20px;
+border-radius: 15px;
 }
 @media (max-width :412px) {
 .box {

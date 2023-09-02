@@ -45,12 +45,12 @@ const GoodsCard = () => {
           myImage = require(`../../../goods/images/IMG_20230804_134452_081.jpg`);
         }
         return (
-          <div key={id} onClick={() => handleProductClick(id)} className="product-card">
+          <div className="product-card">
             <div className="product-image">
               {myImage && <img className="image" src={myImage} alt={namegoods} />}
             </div>
             <div className="product-info">
-              <div className="space">
+              <div className="space" key={id} onClick={() => handleProductClick(id)}>
                 <h1 className="good_name">{namegoods.substring(0, 75)}</h1>
                 <h3 className="good_price">Цена: {price} руб.</h3>
                 <div className="discripto" >{description_goods.substring(0, 200)}</div>
