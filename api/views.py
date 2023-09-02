@@ -10,6 +10,8 @@ from rest_framework import serializers, viewsets, status
 from .models import Good, User
 from django.shortcuts import get_object_or_404
 
+
+
 class UserProfileView:
     @staticmethod
     @api_view(['GET'])
@@ -91,9 +93,19 @@ class GoodView:
     @staticmethod
     @api_view(['GET'])
     def goods(request):
-        data = GoodSerializer(Good.objects.all(), many=True).data
+        data = GoodSerializer(Good.objects.all().order_by('-id'), many=True).data
         return Response(data)
     
+
+
+    @staticmethod
+    @api_view(['GET'])
+    @authentication_classes([TokenAuthentication])
+    @permission_classes([IsAuthenticated])
+    def user_goods(request):
+        data = GoodSerializer(Good.objects.filter(user=request.user).order_by('-id')[:8], many=True).data
+        return Response(data)
+
 
     @authentication_classes([TokenAuthentication])
     @permission_classes([AllowAny])
@@ -145,7 +157,8 @@ class TokenView:
             user_token = Token.objects.get(user=request.user).key # получение токена пользователя из базы данных
             if token == user_token:
                 data = request.user.username
-                return Response({'result': True, 'username': data})
+                user_id = request.user.id
+                return Response({'result': True, 'username': data, 'user_id': user_id})
             else:
                 return Response({'result': False})
         else:
