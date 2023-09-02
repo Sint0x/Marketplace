@@ -5,6 +5,7 @@ const logo = require('../../../images/6786587.png');
 
 export default function Header() {
     const [username, setUsername] = useState('логин');
+    const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -19,6 +20,7 @@ export default function Header() {
                 .then((response) => response.json())
                 .then((data) => {
                     setUsername(data.username);
+                    setUserId(data.user_id);
                 });
         }
     }, []);
@@ -28,22 +30,35 @@ export default function Header() {
     }
 
     const handleUsernameClick = () => {
-        if (username == null) {
+        if (username === 'логин') {
+            console.log(username)
             navigate('/login');
         } else {
-            navigate('/profile');
+            console.log(username)
+            navigate(`/profile/${userId}`);
+            window.location.reload();
         }
     }
 
     return (
         <>
-            <nav className="header" style={{ position: 'fixed', top: 0, height: '59px', display: 'flex', justifyContent: 'space-between', zIndex: 9999 }}>
-                <div style={{ marginLeft: '37vh' }}>
-                    <img onClick={handleImageClick} style={{ marginTop: '10px', cursor: 'pointer' }} src={logo} alt="" />
-                    <h1 onClick={handleImageClick} style={{ backgroundImage: 'linear-gradient(to top, black 20%, white)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer', marginTop: '-35px', marginLeft: '-22px', fontFamily: 'Comic Sans MS', fontSize: '20px'  }} >mar...ket.co</h1>
+            <div className="header" style={{ zIndex: 9999 }}>
+                <div style={{ position: 'relative', width: '1200px'}}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div>
+                            <img onClick={handleImageClick} style={{  cursor: 'pointer' }} src={logo} alt="" />
+                            <h1 onClick={handleImageClick} style={{ marginTop: '-37px', marginLeft: '-24px', fontSize: '21px', cursor: 'pointer', backgroundImage: 'linear-gradient(to top, black 20%, white)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: 'Comic Sans MS' }}>
+                                mar...ket.co
+                            </h1>
+                        </div>
+                        <div>
+                            <h1 onClick={handleUsernameClick} style={{ marginTop: '15px',  cursor: 'pointer', maxWidth: 'auto', minWidth: '50px', height: '50px', marginfontFamily: 'COMIC SANS MS', backgroundImage: 'linear-gradient(to top, black 50%, white)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                                {username === 'логин' ? 'Войти' : username}
+                            </h1>
+                        </div>
+                    </div>
                 </div>
-                <h1 onClick={handleUsernameClick} style={{ fontFamily: 'COMIC SANS MS', float: 'right', marginRight: '22vh', width: '200px', height: '50px', backgroundImage: 'linear-gradient(to top, black 50%, white)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>{username == null ? 'Войти' : username}</h1>
-            </nav>
+            </div>
         </>
     );
 }
