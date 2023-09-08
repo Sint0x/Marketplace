@@ -102,8 +102,9 @@ class GoodView:
     @api_view(['GET'])
     @authentication_classes([TokenAuthentication])
     @permission_classes([IsAuthenticated])
-    def user_goods(request):
-        data = GoodSerializer(Good.objects.filter(user=request.user).order_by('-id')[:8], many=True).data
+    def user_goods(request, id):
+        user = User.objects.get(id=id)
+        data = GoodSerializer(Good.objects.filter(user=user).order_by('-id')[:8], many=True).data
         return Response(data)
 
 

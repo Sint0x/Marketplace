@@ -21,7 +21,7 @@ const UserProducts = () => {
   }
   const token = localStorage.getItem("key");
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/userproductlist', {
+    fetch('http://127.0.0.1:8000/api/userproductlist/' + id, {
       headers: {
         'Authorization': `Token ${token}`
       }
