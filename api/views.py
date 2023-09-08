@@ -112,15 +112,8 @@ class GoodView:
     @api_view(['GET'])
     def product_detail(request, id):
         good = get_object_or_404(Good, pk=id)
-        data = {
-            'user': good.user.username,
-            'description_goods': good.description_goods,
-            'price': good.price,
-            'images': good.images.url if good.images else None,
-            'namegoods': good.namegoods,
-            'afrom': good.afrom
-        }
-        return Response(data)
+        serializer = GoodSerializer(good)
+        return Response(serializer.data)
 
 
     @api_view(['POST'])

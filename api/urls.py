@@ -14,4 +14,5 @@ urlpatterns = [
     path('add_good', GoodView.add_good, name='testoken'),
     path('user/<int:id>', UserProfileView.userData, name='userData'),
     path('product/<int:id>/', GoodView.product_detail, name='product_detail'),
+    path('userproductlist', GoodView.user_goods, name='user_goods'),
 ]
