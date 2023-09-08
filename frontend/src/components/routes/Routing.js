@@ -9,7 +9,8 @@ import Loggedout from "../auth/Loggedout";
 import UpdateProfileForm from "../Profile/EditProfile";
 import AddGoodForm from "../Product/GoodAdd";
 import ProductPage from "../Product/ProductPage";
-
+import AllUserProducts from "../Profile/AElements/llUserProducts";
+import ProductSellerReviews from "../Profile/Elements/ProductSellerReviews";
 
 
 //роуты
@@ -23,6 +24,8 @@ export default function MembersRouter() {
         <Route path="/creategood" element={<AddGoodForm />} />
         <Route path="/Loggedout" element={<Loggedout />} />
         <Route exact path="/product/:id" element={<ProductPage />} />
+        <Route exact path="/profile/:id/products" element={<PrivateRoute><AllUserProducts /></PrivateRoute>} />
+        <Route exact path="/profile/:id/sellereviews" element={<ProductSellerReviews />} />
       </Routes>
   );
 }

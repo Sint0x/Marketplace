@@ -107,6 +107,14 @@ class GoodView:
         return Response(data)
 
 
+    @staticmethod
+    @api_view(['GET'])
+    @authentication_classes([TokenAuthentication])
+    @permission_classes([IsAuthenticated])
+    def all_user_goods(request):
+        data = GoodSerializer(Good.objects.filter(user=request.user).order_by('-id'), many=True).data
+        return Response(data)
+
     @authentication_classes([TokenAuthentication])
     @permission_classes([AllowAny])
     @api_view(['GET'])
@@ -137,6 +145,36 @@ class GoodView:
         )
 
         return Response({'message': 'Товар успешно добавлен'}, status=status.HTTP_201_CREATED)
+
+
+class ReviewView:
+    @api_view(['GET'])
+    @authentication_classes([TokenAuthentication])
+    @permission_classes([IsAuthenticated])
+    def get(request):
+        data = ReviewSerializer(Review.objects.filter(user=request.user).order_by('-id'), many=True).data
+        return Response(data)
+
+    @api_view(['GET'])
+    @authentication_classes([TokenAuthentication])
+    @permission_classes([IsAuthenticated])
+    def goods_reviews(request):
+        reviews = Review.objects.filter(good__user=request.user)
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data)
+
+    @api_view(['POST'])
+    @authentication_classes([TokenAuthentication])
+    @permission_classes([IsAuthenticated])
+    def post(request):
+        serializer = ReviewSerializer(data=request.data)
+        print(serializer)
+        if serializer.is_valid():
+            review = serializer.save()
+            return Response(status=201)
+        else:
+            return Response(serializer.errors, status=400)
+
 
 class TokenView:
     @staticmethod

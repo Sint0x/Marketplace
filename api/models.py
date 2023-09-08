@@ -17,3 +17,11 @@ class Good(models.Model):
     images = models.ImageField(upload_to='frontend/src/goods/images')
     namegoods = models.CharField(max_length=255)
     afrom = models.CharField(max_length=255)
+
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    good = models.ForeignKey(Good, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    text = models.TextField()
+    rating = models.DecimalField(max_digits=2, decimal_places=1, validators=[MinValueValidator(0), MaxValueValidator(5)])

@@ -15,4 +15,8 @@ urlpatterns = [
     path('user/<int:id>', UserProfileView.userData, name='userData'),
     path('product/<int:id>/', GoodView.product_detail, name='product_detail'),
     path('userproductlist', GoodView.user_goods, name='user_goods'),
+    path('alluserproductlist/<int:id>', GoodView.all_user_goods, name='user_goods'),
+    path('review/get', ReviewView.get, name='review_get'),
+    path('review/post', ReviewView.post, name='review_post'),
+    path('review/goodsreviews', ReviewView.goods_reviews, name='goods_reviews'),
 ]
