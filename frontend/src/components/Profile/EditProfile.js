@@ -37,7 +37,7 @@ function UpdateProfileForm() {
             const filename = parts[parts.length - 1];
             myImage = require('../../images/avatars/' + filename);
         } catch (error) {
-            myImage = require('../../images/avatars/IMG_20230804_134452_081.jpg');
+            myImage = require('./../../images/Placeholder-1.png');
         }
         setPreviewImage(myImage);
       });

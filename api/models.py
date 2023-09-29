@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models import Avg
 
 
 class User(AbstractUser):
@@ -18,10 +19,16 @@ class Good(models.Model):
     namegoods = models.CharField(max_length=255)
     afrom = models.CharField(max_length=255)
 
-
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     good = models.ForeignKey(Good, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     text = models.TextField()
     rating = models.DecimalField(max_digits=2, decimal_places=1, validators=[MinValueValidator(0), MaxValueValidator(5)])
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # Сначала сохраняем отзыв
+        # Затем обновляем рейтинг пользователя
+        new_rating = Review.objects.filter(good__user=self.good.user).aggregate(Avg('rating'))['rating__avg']
+        self.good.user.rating = new_rating
+        self.good.user.save()

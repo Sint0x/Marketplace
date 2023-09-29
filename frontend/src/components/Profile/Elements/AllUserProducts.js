@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './style.css';
+
 import { useNavigate } from 'react-router-dom';
-import Header from '../Elements/Header/Header';
+import Header from '.././../Elements/Header/Header';
 import { useParams } from 'react-router-dom';
 
 
@@ -53,12 +53,11 @@ const AllUserProducts = () => {
             {products.map((product) => {
               const { username, rating, first_name, last_name, description_goods, price, images, id, namegoods, afrom } = product;
               let myImage;
-              console.log(id)
               if (images) {
                 const imageName = images.split('/').pop();
-                myImage = require(`./../../goods/images/${imageName}`);
+                myImage = require(`../../../goods/images/${imageName}`);
               } else {
-                myImage = require(`./../../goods/images/IMG_20230804_134452_081.jpg`);
+                myImage = require('../../../images/Placeholder-1.png');
               }
               return (
                       <div className="product-card-mini" style={{ width: '450px' }}>

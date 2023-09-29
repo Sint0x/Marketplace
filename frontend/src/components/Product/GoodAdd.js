@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Header from '../Elements/Header/Header';
+import './style.css'
 function AddGoodForm() {
     const [descriptionGoods, setDescriptionGoods] = useState('');
     const [price, setPrice] = useState('');
@@ -34,7 +35,6 @@ function AddGoodForm() {
                 body: formData
             });
             const data = await response.json();
-            console.log(data);
         } catch (error) {
             console.error(error);
         }
@@ -47,14 +47,14 @@ return (
     <div className="center" >
         <div className="box">
             <form onSubmit={handleSubmit}>
-            <div className="divname inputs"><p className='tags'>Название товара</p>
+            <div className="divname inputs"><p className='tags'>Название товара:</p>
                     <input className='inname field'
                         type="text"
                         value={namegoods}
                         onChange={event => setNamegoods(event.target.value)}
                     />
                 </div>
-                <div className="divprice inputs"><p className='tags'>Цена</p>
+                <div className="divprice inputs"><p className='tags'>Цена:</p>
                     <input className='inprice field'
                         type="number"
                         pattern="[0-9]"
@@ -63,20 +63,20 @@ return (
                     />
                     <p className='pricevalue tags'>руб.</p>
                 </div>
-                <div className="divdesc inputs"><p className='tags'>Описание товара</p>
-                    <textarea className='indesc field'
+                <div className="divdesc inputs"><p className='tags'>Описание товара:</p>
+                    <textarea className='indesc field' style={{ resize: 'none' }}
                         type="text" 
                         value={descriptionGoods}
                         onChange={event => setDescriptionGoods(event.target.value)}/>
                 </div>
-                <div className="divfrom inputs"><p className='tags'>Место происхождения</p>
+                <div className="divfrom inputs"><p className='tags'>Место встречи:</p>
                     <input className='infrom field'
                         type="text"
                         value={afrom}
                         onChange={event => setAfrom(event.target.value)}
                     />
                 </div>
-                <div className="divpicture inputs"><p className='tags'>Изображение</p>
+                <div className="divpicture inputs"><p className='tags'>Изображение:</p>
                     <input id='input' className='inpicture field' style={{marginTop:'15px'}}
                         type="file"
                         aria-hidden="false"
@@ -85,7 +85,7 @@ return (
                     <label className='addfile' for="input"><span className='span'>Добавить файл</span></label>
                 </div>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
-                <button className='addfile span' type="submit">Добавить товар</button>
+                <button className='addfile span' type="submit" style={{ color: 'white' }}>Добавить товар</button>
             </form>
         </div>
     </div>

@@ -3,19 +3,20 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authentication import TokenAuthentication
-from .serializers import LoginRequestSerializer, TokenSeriazliser, GoodSerializer, UserSerializer
+from .serializers import LoginRequestSerializer, TokenSeriazliser, GoodSerializer, UserSerializer, ReviewSerializer
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
 from rest_framework import serializers, viewsets, status
-from .models import Good, User
+from .models import Good, User, Review
 from django.shortcuts import get_object_or_404
+from rest_framework.pagination import PageNumberPagination
 
 
 
 class UserProfileView:
     @staticmethod
     @api_view(['GET'])
-    @permission_classes([IsAuthenticated])
+    @permission_classes([AllowAny])
     @authentication_classes([TokenAuthentication])
     def userData(request, id):
         user = User.objects.get(id=id)
@@ -94,9 +95,13 @@ class GoodView:
     @api_view(['GET'])
     def goods(request):
         data = GoodSerializer(Good.objects.all().order_by('-id'), many=True).data
-        return Response(data)
+        paginator = PageNumberPagination()
+        paginator.page_size = 4  # Установите количество отзывов на страницу
+        paginated_goods = paginator.paginate_queryset(data, request)
+        serializer = GoodSerializer(paginated_goods, many=True)
+        return paginator.get_paginated_response(paginated_goods)
+        # return Response(data)
     
-
 
     @staticmethod
     @api_view(['GET'])
@@ -112,9 +117,11 @@ class GoodView:
     @api_view(['GET'])
     @authentication_classes([TokenAuthentication])
     @permission_classes([IsAuthenticated])
-    def all_user_goods(request):
-        data = GoodSerializer(Good.objects.filter(user=request.user).order_by('-id'), many=True).data
+    def all_user_goods(request, id):
+        user = User.objects.get(id=id)
+        data = GoodSerializer(Good.objects.filter(user=user).order_by('-id'), many=True).data
         return Response(data)
+
 
     @authentication_classes([TokenAuthentication])
     @permission_classes([AllowAny])
@@ -148,21 +155,28 @@ class GoodView:
         return Response({'message': 'Товар успешно добавлен'}, status=status.HTTP_201_CREATED)
 
 
+
 class ReviewView:
     @api_view(['GET'])
     @authentication_classes([TokenAuthentication])
     @permission_classes([IsAuthenticated])
-    def get(request):
-        data = ReviewSerializer(Review.objects.filter(user=request.user).order_by('-id'), many=True).data
+    def user_reviews(request, id):
+        user = User.objects.get(id=id)
+        data = ReviewSerializer(Review.objects.filter(user=user).order_by('-id'), many=True).data
         return Response(data)
 
     @api_view(['GET'])
     @authentication_classes([TokenAuthentication])
     @permission_classes([IsAuthenticated])
-    def goods_reviews(request):
-        reviews = Review.objects.filter(good__user=request.user)
-        serializer = ReviewSerializer(reviews, many=True)
-        return Response(serializer.data)
+    def profile_reviews(request, id):
+        user = User.objects.get(id=id)
+        reviews = Review.objects.filter(good__user=user).order_by('-id')
+        paginator = PageNumberPagination()
+        paginator.page_size = 5  # Установите количество отзывов на страницу
+        paginated_reviews = paginator.paginate_queryset(reviews, request)
+        serializer = ReviewSerializer(paginated_reviews, many=True)
+
+        return paginator.get_paginated_response(serializer.data)
 
     @api_view(['POST'])
     @authentication_classes([TokenAuthentication])
@@ -175,7 +189,6 @@ class ReviewView:
             return Response(status=201)
         else:
             return Response(serializer.errors, status=400)
-
 
 class TokenView:
     @staticmethod
@@ -195,3 +208,4 @@ class TokenView:
                 return Response({'result': False})
         else:
             return Response({'result': False})
+

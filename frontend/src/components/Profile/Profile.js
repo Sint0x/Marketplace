@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import Header from '../Elements/Header/Header';
 import Linkify from 'react-linkify';
 import UserProducts from '../Elements/Goods/UserProducts';
-
+import ProductSellerReviews from './Elements/ProductSellerReviews'
 
 // профиль юзера с контентом
 function Profile() {
@@ -57,7 +57,7 @@ function Profile() {
         const filename = parts[parts.length - 1];
         myImage = require('./../../images/avatars/' + filename);
     } catch (error) {
-        myImage = require('./../../images/avatars/IMG_20230804_134452_081.jpg');
+        myImage = require('./../../images/Placeholder-1.png');
     }
     
     const linkDecorator = (href, text, key) => (
@@ -92,13 +92,10 @@ function Profile() {
               <div className="description"><Linkify componentDecorator={linkDecorator}>{userData.profile_description}</Linkify></div>
           </div>
       </div>
-      <div className="center" style={{ }}>
-          <div className="box">
-              <div className="profile">
-                <UserProducts />
-              </div>
-          </div>
-      </div>
+        <UserProducts />
+
+              <ProductSellerReviews />
+
       </>
     );
 }
